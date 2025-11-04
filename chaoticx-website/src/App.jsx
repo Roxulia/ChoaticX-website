@@ -1,7 +1,7 @@
 import { BrowserRouter as Router } from 'react-router-dom';
-import { ServicesProvider } from './context';
+import { ServicesProvider } from './contexts';
 import { Header } from './components';
-import AppRouter from './router/AppRouter';
+import AppRouter from './routers/AppRouter';
 
 export default function App() {
   return (
