@@ -4,20 +4,19 @@ export default class SignalService {
     this.http = httpClient;
   }
 
-  async getTrialSignal(symbol = 'BTCUSDT') {
+  async getTrialSignal(formData = { symbol: 'BTCUSDT' }) {
     try {
-      const data = await this.http.get(`/signals/trial?symbol=${symbol}`);
-      return this._mapSignal(data);
+      const res = await this.http.post('/predict',formData);
+
+      const data = await res.json();
+      if (res.ok) {
+        return this._mapSignal(data);
+      } else {
+        throw new Error(`❌ Error: ${data.error || "Failed"}`);
+      }
     } catch (err) {
-      // fallback mock data
-      return this._mapSignal({
-        symbol,
-        position: 'Long',
-        probability: 0.68,
-        sl: 60000,
-        tp: 68000,
-        timestamp: Date.now(),
-      });
+      throw new Error(err.message);
+      
     }
   }
 
